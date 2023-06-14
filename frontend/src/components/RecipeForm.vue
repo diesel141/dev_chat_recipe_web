@@ -1,21 +1,27 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { reactive } from 'vue';
+import axios from "axios";
+//import { useRouter } from 'vue-router'
 
+//const router = useRouter()
 
-const msg = ref('Form page');
-const router = useRouter()
+const data = reactive({
+    responses: "",
+});
 
-const requestApi = () => {
-    console.log('requestApi');
-    router.push('/result')
-}
+// 疎通確認用
+const url = "http://localhost:8000/api/test";
+const requestApi = async () => {
+    const result = await axios.get(url);
+    data.responses = result.data;
+};
+
 
 </script>
 
 <template>
     <div>
-        <h1>{{ msg }}</h1>
+        <h1>{{ data.responses }}</h1>
     </div>
     <button @click="requestApi">実行</button>
 </template>
