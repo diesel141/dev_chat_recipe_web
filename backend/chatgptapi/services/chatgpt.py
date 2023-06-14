@@ -1,3 +1,3 @@
 # bizlogic
 def hoge():
-    return "hogehoge"
+    return "DRF Response OK"
