@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  backend:
+    container_name: backend
+    restart: always
+    build: ./backend
+    tty: true
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app
+  frontend:
+    container_name: frontend
+    restart: always
+    build: ./frontend
+    tty: true
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - node_modules:/app/node_modules
+volumes:
+  node_modules:
