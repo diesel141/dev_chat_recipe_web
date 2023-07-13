@@ -23,7 +23,7 @@ const requestApi = async () => {
     <div>
         <h1>{{ data.responses }}</h1>
     </div>
-    <button @click="requestApi">実行</button>
+    <v-btn @click="requestApi">実行</v-btn>
 </template>
 
 <style scoped></style>
