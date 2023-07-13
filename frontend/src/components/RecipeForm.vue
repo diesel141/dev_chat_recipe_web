@@ -116,7 +116,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
             <el-button @click="resetForm(ruleFormRef)" size="large" class="w-full">リセット</el-button>
         </el-form>
     </el-card>
-    <el-card v-if="data.responses !== ''" shadow="never" class="w-full max-w-md">
+    <el-card v-if="data.responses !== ''" shadow="never" class="w-full max-w-md margin">
       <div class="response__container">
         <div class="response">
           <div class="text">{{ data.responses.content }}</div>
@@ -126,10 +126,14 @@ const resetForm = (formEl: FormInstance | undefined) => {
 </template>
 
 <style scoped>
+.margin {
+  margin-top: 20px;
+}
 .response__container .response {
     position: relative;
     display: block;
-    margin: 5px 0;
+    margin: 10px 0;
+    margin-top: -5px;
     max-width: 95%;
     float: left;
     margin-right: 5px;   /* 15px */
