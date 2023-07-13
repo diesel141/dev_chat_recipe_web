@@ -1,10 +1,15 @@
 <script setup>
-import Header from './components/MainHeader.vue'
 </script>
 
 <template>
-  <Header></Header>
-  <RouterView />
+  <div class="common-layout">
+    <el-container>
+      <el-header>ヘッダー</el-header>
+      <el-main>
+        <RouterView />
+      </el-main>
+    </el-container>
+  </div>
 </template>
-
+  
 <style scoped></style>
