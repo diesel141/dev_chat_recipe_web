@@ -8,6 +8,7 @@ const router = useRouter()
 
 const data = reactive({
     responses: "",
+    input: "",
 });
 
 const {setGptResponse, getGptResponse} =useGptStore()
@@ -45,15 +46,34 @@ const useCloud = ref(false);
 </script>
 
 <template>
+    <el-card shadow="never" class="w-full max-w-md" :body-style="{ padding: 20 }">
+        <div class="m-8 text-center">
+            <el-link href="https://element-plus.org/en-US/" :underline="false" class="m-0">
+                <img src="https://element-plus.org/images/element-plus-logo.svg" class="block w-[120px] h-[28px]"
+                    alt="Element Plus" />
+            </el-link>
+            <h2 class="my-3">DevChatRecipe</h2>
+        </div>
+        <el-form label-position="top">
+            <el-form-item label="作りたいアプリ概要を入力*">
+                <el-input v-model="appOverview" placeholder="Please input" size="large" />
+            </el-form-item>
+            <el-form-item label="言語を入力">
+                <el-input size="large" v-model="programmingLanguage"　/>
+            </el-form-item>
+            <div class="flex justify-between mb-2">
+                <el-checkbox v-model="useDatabase" label="DBを使用する" size="large" />
+            </div>
+            <div class="flex justify-between mb-2">
+                <el-checkbox v-model="useCloud" label="クラウドを使用する" size="large" />
+            </div>
+            <el-button @click="requestApi" type="primary" size="large" class="w-full">作成</el-button>
+        </el-form>
+    </el-card>
+
     <div>
         <h1>{{ data.responses }}</h1>
-        <!--検索項目-->
-        作りたいアプリ概要を入力*　<input type="text" v-model="appOverview" /><br>        
-        言語を入力　<input type="text" v-model="programmingLanguage" /><br>
-        DBを使用する　<input type="checkbox" v-model="useDatabase" /><br>
-        クラウドを使用する　<input type="checkbox" v-model="useCloud" /><br>
     </div>
-    <button @click="requestApi">実行</button>
 </template>
 
 <style scoped></style>
