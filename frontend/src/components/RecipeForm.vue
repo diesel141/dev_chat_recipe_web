@@ -21,12 +21,16 @@ const requestApi = async () => {
     //alert("useCloud:" + useCloud.value);
     // リクエスト(入力項目をjson)
     //const result = await axios.get(url);
-    const result = await axios.post(url,{
-        appOverview: appOverview.value,
-        programmingLanguage: programmingLanguage.value,
-        useDatabase: useDatabase.value,
-        useCloud: useCloud.value
-    });
+    const result = await axios.post(url,
+    {
+        prompt: {
+            appOverview: appOverview.value,
+            programmingLanguage: programmingLanguage.value,
+            useDatabase: useDatabase.value,
+            useCloud: useCloud.value
+        }
+    }
+    );
     setGptResponse(result.data)
     data.responses = getGptResponse()
     router.push('/result')
