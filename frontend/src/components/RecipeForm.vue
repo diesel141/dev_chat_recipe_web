@@ -3,6 +3,7 @@ import { ref, reactive } from 'vue';
 import axios from "axios";
 import { useRouter } from 'vue-router'
 import { useGptStore } from "@/stores/gpt";
+import { ElLoading } from 'element-plus'
 
 const router = useRouter()
 
@@ -20,6 +21,7 @@ const requestApi = async () => {
     //alert("programmingLanguage:" + programmingLanguage.value);
     //alert("useDatabase:" + useDatabase.value);
     //alert("useCloud:" + useCloud.value);
+    const loadingInstance = ElLoading.service({ fullscreen: true })
     // リクエスト(入力項目をjson)
     //const result = await axios.get(url);
     const result = await axios.post(url,
@@ -34,7 +36,8 @@ const requestApi = async () => {
     );
     setGptResponse(result.data)
     data.responses = getGptResponse()
-    router.push('/result')
+    loadingInstance.close()
+    //router.push('/result')
 };
 
 // 検索項目
@@ -59,7 +62,7 @@ const useCloud = ref(false);
                 <el-input v-model="appOverview" placeholder="Please input" size="large" />
             </el-form-item>
             <el-form-item label="言語を入力">
-                <el-input size="large" v-model="programmingLanguage"　/>
+                <el-input size="large" v-model="programmingLanguage"/>
             </el-form-item>
             <div class="flex justify-between mb-2">
                 <el-checkbox v-model="useDatabase" label="DBを使用する" size="large" />
@@ -71,9 +74,14 @@ const useCloud = ref(false);
         </el-form>
     </el-card>
 
-    <div>
-        <h1>{{ data.responses }}</h1>
-    </div>
+    <el-card shadow="never" class="w-full max-w-md" :body-style="{ padding: 20 }">
+        <h2 class="my-3">Result</h2>
+        <div>
+            <el-form>
+                {{ data.responses.content }}
+            </el-form>
+        </div>
+    </el-card>
 </template>
 
 <style scoped></style>
