@@ -13,5 +13,7 @@ class RequestChatGPTView(APIView):
 
     def post(self, request, format=None):
         return Response(
-            {"content": createPrompt(request)}, status=status.HTTP_200_OK
+            # モックを実行中
+            # {"content": createPrompt(request)}, status=status.HTTP_200_OK
+            {"content": hoge()}, status=status.HTTP_200_OK
         )
