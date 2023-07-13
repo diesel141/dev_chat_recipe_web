@@ -15,18 +15,18 @@ const {setGptResponse, getGptResponse} =useGptStore()
 // 疎通確認用
 const url = "http://localhost:8000/api/test";
 const requestApi = async () => {
-    alert("appOverview:" + appOverview.value);
-    alert("programmingLanguage:" + programmingLanguage.value);
-    alert("useDatabase:" + useDatabase.value);
-    alert("useCloud:" + useCloud.value);
+    //alert("appOverview:" + appOverview.value);
+    //alert("programmingLanguage:" + programmingLanguage.value);
+    //alert("useDatabase:" + useDatabase.value);
+    //alert("useCloud:" + useCloud.value);
     // リクエスト(入力項目をjson)
-    /*{
-        appOverview: appOverview,
-        programmingLanguage: programmingLanguage,
-        useDatabase: useDatabase,
-        useCloud: useCloud
-    }*/
-    const result = await axios.get(url);
+    //const result = await axios.get(url);
+    const result = await axios.post(url,{
+        appOverview: appOverview.value,
+        programmingLanguage: programmingLanguage.value,
+        useDatabase: useDatabase.value,
+        useCloud: useCloud.value
+    });
     setGptResponse(result.data)
     data.responses = getGptResponse()
     router.push('/result')
