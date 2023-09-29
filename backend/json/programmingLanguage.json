@@ -1,0 +1,69 @@
+{
+  "lang":[
+    {
+      "id":1,
+      "dispName": "指定なし",
+      "prompt": "unspecified"
+    },
+    {
+      "id":2,
+      "dispName": "Python",
+      "prompt": "Python"
+    },
+    {
+      "id":3,
+      "dispName": "PHP",
+      "prompt": "PHP"
+    },
+    {
+      "id":4,
+      "dispName": "Ruby",
+      "prompt": "Ruby"
+    },
+    {
+      "id":5,
+      "dispName": "JavaScript",
+      "prompt": "JavaScript"
+    },
+    {
+      "id":6,
+      "dispName": "TypeScript",
+      "prompt": "TypeScript"
+    },
+    {
+      "id":7,
+      "dispName": "Java",
+      "prompt": "Java"
+    },
+    {
+      "id":8,
+      "dispName": "Kotlin",
+      "prompt": "Kotlin"
+    },
+    {
+      "id":9,
+      "dispName": "Scala",
+      "prompt": "Scala"
+    },
+    {
+      "id":10,
+      "dispName": "C#",
+      "prompt": "C#"
+    },
+    {
+      "id":11,
+      "dispName": "Go",
+      "prompt": "Go"
+    },
+    {
+      "id":12,
+      "dispName": "Rust",
+      "prompt": "Rust"
+    },
+    {
+      "id":13,
+      "dispName": "Swift",
+      "prompt": "Swift"
+    }
+  ]
+}
