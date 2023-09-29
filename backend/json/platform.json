@@ -1,0 +1,34 @@
+{
+  "platform": [
+    {
+      "id": 1,
+      "dispname": "指定なし",
+      "prompt": "unspecified"
+    },
+    {
+      "id": 2,
+      "dispname": "WEBブラウザ",
+      "prompt": "WEB"
+    },
+    {
+      "id": 3,
+      "dispname": "スマートフォン",
+      "prompt": "Mobile Application"
+    },
+    {
+      "id": 4,
+      "dispname": "コンソール",
+      "prompt": "Console Application"
+    },
+    {
+      "id": 5,
+      "dispname": "デスクトップ",
+      "prompt": "Desktop Application"
+    },
+    {
+      "id": 6,
+      "dispname": "クロスプラットフォーム",
+      "prompt": "Cross Platform Application"
+    }
+  ]
+}
