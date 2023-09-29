@@ -2,15 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from rest_framework import status
-from .services.chatgpt import hoge
 from .services.chatgpt import createPrompt
 
 class RequestChatGPTView(APIView):
-    def get(self, request, format=None):
-        # ビジネスロジックを呼ぶだけにする
-        msg = hoge()
-        return Response({"message": msg}, status=status.HTTP_200_OK)
-
     def post(self, request, format=None):
         try:
             # 質問結果取得
@@ -19,6 +13,10 @@ class RequestChatGPTView(APIView):
             if not content:
                 return Response(
                     {"content": "結果が取得できませんでした。"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+            elif content == "max_len_error":
+                return Response(
+                    {"content": "入力項目の桁数が上限を超えています。"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
             else:
                 return Response(
