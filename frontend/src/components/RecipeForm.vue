@@ -34,6 +34,7 @@ const requestApi = async (formEl: FormInstance | undefined) => {
     
     // alert("appOverview:" + ruleForm.appOverview);
     // alert("programmingLanguage:" + ruleForm.programmingLanguage);
+    // alert("platform:" + ruleForm.platform);
     // alert("useDatabase:" + ruleForm.useDatabase);
     // alert("useCloud:" + ruleForm.useCloud);
     const loadingInstance = ElLoading.service({ fullscreen: true })
@@ -44,6 +45,7 @@ const requestApi = async (formEl: FormInstance | undefined) => {
         prompt: {
             appOverview: ruleForm.appOverview,
             programmingLanguage: ruleForm.programmingLanguage,
+            platform: ruleForm.platform,
             useDatabase: ruleForm.useDatabase,
             useCloud: ruleForm.useCloud
         }
@@ -58,6 +60,7 @@ const requestApi = async (formEl: FormInstance | undefined) => {
 interface RuleForm {
   appOverview: string
   programmingLanguage: string
+  platform: string
   useDatabase: boolean
   useCloud: boolean
 }
@@ -66,7 +69,8 @@ const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   appOverview: '',
-  programmingLanguage: '',
+  programmingLanguage: 1,
+  platform: 1,
   useDatabase: false,
   useCloud: false,
 })
@@ -74,6 +78,7 @@ const ruleForm = reactive<RuleForm>({
 const rules = reactive<FormRules<RuleForm>>({
   appOverview: [
     { required: true, message: 'アプリ概要を入力して下さい', trigger: 'blur' },
+    { max: 50, message: 'アプリ概要を50文字以内で入力してください', trigger: 'blur' }
   ],
 })
 
@@ -83,6 +88,106 @@ const resetForm = (formEl: FormInstance | undefined) => {
   data.responses = ""
 };
 
+const programmingLanguageList = [
+    {
+      "id":1,
+      "dispName": "指定なし",
+      "prompt": "unspecified"
+    },
+    {
+      "id":2,
+      "dispName": "Python",
+      "prompt": "Python"
+    },
+    {
+      "id":3,
+      "dispName": "PHP",
+      "prompt": "PHP"
+    },
+    {
+      "id":4,
+      "dispName": "Ruby",
+      "prompt": "Ruby"
+    },
+    {
+      "id":5,
+      "dispName": "JavaScript",
+      "prompt": "JavaScript"
+    },
+    {
+      "id":6,
+      "dispName": "TypeScript",
+      "prompt": "TypeScript"
+    },
+    {
+      "id":7,
+      "dispName": "Java",
+      "prompt": "Java"
+    },
+    {
+      "id":8,
+      "dispName": "Kotlin",
+      "prompt": "Kotlin"
+    },
+    {
+      "id":9,
+      "dispName": "Scala",
+      "prompt": "Scala"
+    },
+    {
+      "id":10,
+      "dispName": "C#",
+      "prompt": "C#"
+    },
+    {
+      "id":11,
+      "dispName": "Go",
+      "prompt": "Go"
+    },
+    {
+      "id":12,
+      "dispName": "Rust",
+      "prompt": "Rust"
+    },
+    {
+      "id":13,
+      "dispName": "Swift",
+      "prompt": "Swift"
+    }
+];
+
+const platformList = [
+    {
+      "id": 1,
+      "dispname": "指定なし",
+      "prompt": "unspecified"
+    },
+    {
+      "id": 2,
+      "dispname": "WEBブラウザ",
+      "prompt": "WEB"
+    },
+    {
+      "id": 3,
+      "dispname": "スマートフォン",
+      "prompt": "Mobile Application"
+    },
+    {
+      "id": 4,
+      "dispname": "コンソール",
+      "prompt": "Console Application"
+    },
+    {
+      "id": 5,
+      "dispname": "デスクトップ",
+      "prompt": "Desktop Application"
+    },
+    {
+      "id": 6,
+      "dispname": "クロスプラットフォーム",
+      "prompt": "Cross Platform Application"
+    }
+];
 
 </script>
 
@@ -104,7 +209,24 @@ const resetForm = (formEl: FormInstance | undefined) => {
                 <el-input v-model="ruleForm.appOverview" size="large" />
             </el-form-item>
             <el-form-item label="言語を入力" prop="programmingLanguage">
-                <el-input size="large" v-model="ruleForm.programmingLanguage"/>
+                <el-select v-model="ruleForm.programmingLanguage" value-key="id">
+                    <el-option
+                        v-for="programmingLanguage in programmingLanguageList"
+                        :key="programmingLanguage.id"
+                        :label="`${programmingLanguage.dispName}`"
+                        :value="programmingLanguage.id"
+                    />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="プラットフォームを入力" prop="platform">
+                <el-select v-model="ruleForm.platform" value-key="id">
+                    <el-option
+                        v-for="platform in platformList"
+                        :key="platform.id"
+                        :label="`${platform.dispname}`"
+                        :value="platform.id"
+                    />
+                </el-select>
             </el-form-item>
             <el-form-item class="flex justify-between mb-2" prop="useDatabase">
                 <el-checkbox v-model="ruleForm.useDatabase" label="DBを使用する" size="large" />
