@@ -15,8 +15,9 @@ const data = reactive({
 
 const {setGptResponse, getGptResponse} =useGptStore()
 
+
 // 疎通確認用
-const url = "http://localhost:8000/api/test";
+const url = import.meta.env.VITE_API_URL_BASE;
 const requestApi = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     let submitFlg = false;
@@ -32,14 +33,8 @@ const requestApi = async (formEl: FormInstance | undefined) => {
 
     if (!submitFlg) return
     
-    // alert("appOverview:" + ruleForm.appOverview);
-    // alert("programmingLanguage:" + ruleForm.programmingLanguage);
-    // alert("platform:" + ruleForm.platform);
-    // alert("useDatabase:" + ruleForm.useDatabase);
-    // alert("useCloud:" + ruleForm.useCloud);
     const loadingInstance = ElLoading.service({ fullscreen: true })
     // リクエスト(入力項目をjson)
-    //const result = await axios.get(url);
     const result = await axios.post(url,
     {
         prompt: {
@@ -54,7 +49,6 @@ const requestApi = async (formEl: FormInstance | undefined) => {
     setGptResponse(result.data)
     data.responses = getGptResponse()
     loadingInstance.close()
-    //router.push('/result')
 };
 
 interface RuleForm {
@@ -258,7 +252,7 @@ const platformList = [
     margin-top: -5px;
     max-width: 95%;
     float: left;
-    margin-right: 5px;   /* 15px */
+    margin-right: 5px;   /* 5px */
     clear: both;
 }
 
