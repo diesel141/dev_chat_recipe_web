@@ -17,7 +17,7 @@ const {setGptResponse, getGptResponse} =useGptStore()
 
 
 // 疎通確認用
-const url = import.meta.env.VITE_API_URL_BASE;
+const url = import.meta.env.VITE_API_URL_BASE + import.meta.env.VITE_API_CHAT_GPT;
 const requestApi = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     let submitFlg = false;
