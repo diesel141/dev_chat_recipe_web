@@ -12,8 +12,19 @@ class RequestChatGPTView(APIView):
         return Response({"message": msg}, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
-        return Response(
-            # モックを実行中
-            # {"content": createPrompt(request)}, status=status.HTTP_200_OK
-            {"content": hoge()}, status=status.HTTP_200_OK
-        )
+        try:
+            # 質問結果取得
+            content = createPrompt(request)
+            
+            if not content:
+                return Response(
+                    {"content": "結果が取得できませんでした。"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+            else:
+                return Response(
+                    {"content": content}, status=status.HTTP_200_OK
+                )
+        except Exception as e:
+            # エラーが発生した場合
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
