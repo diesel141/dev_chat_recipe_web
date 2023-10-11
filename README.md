@@ -18,7 +18,15 @@ cd ./devchatrecipe
 python generate_secretkey_setting.py > local_settings.py
 ```
 
-3. `.frontend/.env.exapmle`を`frontend/.env.local`にリネームする
+3. `API_KEY`の設定
+
+  - 生成された`local_settings.py`にChatGPTAPIのAPI_KEYを設定する
+
+```
+API_KEY = ""
+```
+
+4. `.frontend/.env.exapmle`を`frontend/.env.local`にリネームする
 
 ### URL
 [Python]
