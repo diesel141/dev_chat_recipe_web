@@ -263,6 +263,7 @@ const platformList = [
   background-color: #D6D9D7;  /* 背景色 自分 */
   color: #000000;   /* 文字色 */
   font-size: 15px;  /* 文字サイズ */
+  white-space: pre-wrap;  /* 改行 */
 }
 
 </style>
