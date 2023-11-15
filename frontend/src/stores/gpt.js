@@ -1,4 +1,3 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 // vue2(vuex) ⇒ vue3(pinia)
