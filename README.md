@@ -18,7 +18,15 @@ cd ./devchatrecipe
 python generate_secretkey_setting.py > local_settings.py
 ```
 
-3. `.frontend/.env.exapmle`を`frontend/.env.local`にリネームする
+3. `API_KEY`の設定
+
+  - 生成された`local_settings.py`にChatGPTAPIのAPI_KEYを設定する
+
+```
+API_KEY = ""
+```
+
+4. `.frontend/.env.exapmle`を`frontend/.env.local`にリネームする
 
 ### URL
 [Python]
@@ -26,3 +34,16 @@ http://localhost:8000
 
 [Vue.js]
 http://localhost:5173
+
+## Attention
+
+### `AttributeError: 'NoneType' object has no attribute 'group'`への対応について
+
+- ChatGPTAPIへのリクエスト、レスポンスは翻訳している
+  -  リクエスト（日→英）
+  -  レスポンス（英→日）
+  -  APIの利用料金を下げるため
+- 翻訳については[googletrans](https://pypi.org/project/googletrans/)を使用している
+- ライブラリが安定していないようでエラーが発生したり、しなかったりする
+- 現在、バージョンは`4.0.0-rc1`固定にしている
+- エラーが発生するようであれば、ライブラリのバージョンを変える、GitHubのIssuesを確認する等で対応すること
