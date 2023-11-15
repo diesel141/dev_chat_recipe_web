@@ -4,6 +4,3 @@ django-filter
 django-cors-headers
 googletrans==4.0.0-rc1
 openai
-os
-logging
-TimedRotatingFileHandler
