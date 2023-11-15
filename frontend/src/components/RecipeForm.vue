@@ -4,6 +4,7 @@ import axios from "axios";
 import { useGptStore } from "@/stores/gpt"
 import { ElLoading } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const data = reactive({
   responses: "",
@@ -12,6 +13,13 @@ const data = reactive({
 
 const { setGptResponse, getGptResponse } = useGptStore()
 
+const open = () => {
+  ElMessage({
+    message: 'this is a message.',
+    grouping: true,
+    type: 'success',
+  })
+}
 
 // 疎通確認用
 const url = import.meta.env.VITE_API_URL_BASE + import.meta.env.VITE_API_CHAT_GPT;
@@ -42,10 +50,18 @@ const requestApi = async (formEl: FormInstance | undefined) => {
         useCloud: ruleForm.useCloud
       }
     }
-  );
-  setGptResponse(result.data)
-  data.responses = getGptResponse()
-  loadingInstance.close()
+  ).then((response) => {
+    setGptResponse(response.data)
+    data.responses = getGptResponse()
+    loadingInstance.close()
+  }).catch((error) => {
+    ElMessage({
+      message: 'ChatGPT実行に失敗しました。',
+      type: 'error',
+    })
+    console.log(error.response);
+    loadingInstance.close()
+  });
 };
 
 interface RuleForm {
