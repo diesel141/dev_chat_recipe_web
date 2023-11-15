@@ -1,8 +1,7 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
 import { useGptStore } from "@/stores/gpt";
 
-const {getGptResponse} =useGptStore()
+const { getGptResponse } = useGptStore()
 
 </script>
 
