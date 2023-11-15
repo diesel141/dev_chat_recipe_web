@@ -1,8 +1,12 @@
 # bizlogic
+from logging.handlers import TimedRotatingFileHandler
 from django.conf import settings
 from googletrans import Translator
+import os
 import openai
 import json
+import logging
+from chatgptapi import LOG_FILE_PATH
 
 openai.api_key = settings.API_KEY
 # 最大桁数
@@ -10,10 +14,25 @@ MAX_LEN = 50
 
 translator = Translator()
 
+# ログファイルの設定
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+# 日別にログファイルを作成し、過去10日分までログファイルを保持する
+handler = TimedRotatingFileHandler(LOG_FILE_PATH, when='D', interval=1, backupCount=10)
+handler.setLevel(logging.DEBUG)
+logger.addHandler(handler)
+logger.propagate = False
+# ログにはタイムスタンプ及び、ファイル名、行番号、ログレベル、メッセージを出力する
+formatter = logging.Formatter('%(asctime)s %(name)s:%(lineno)d [%(levelname)s]: %(message)s')
+handler.setFormatter(formatter)
+
 def createPrompt(request):
+    logger.debug("createPrompt start")
+
     # リクエストデータ取得
     request_data = request.data
     prompt = request_data["prompt"]
+    logger.debug("prompt:" + json.dumps(prompt))
 
     # 作りたいアプリ概要
     app_over_view = prompt["appOverview"]
@@ -24,9 +43,11 @@ def createPrompt(request):
 
     # 作りたいアプリ概要がない場合、処理終了
     if not app_over_view:
+        logger.warning("作りたいアプリの概要 入力無し")
         return ""
     # 桁数チェック
-    if isMaxLen(app_over_view,MAX_LEN):
+    if isMaxLen(app_over_view, MAX_LEN):
+        logger.warning("桁数上限エラー app_over_view:" + app_over_view)
         return "max_len_error"
 
     # JSONファイルの読み込み及び取得
@@ -45,31 +66,36 @@ def createPrompt(request):
     system_prompt3 = "「DB使用有無：」が「有り」となっていた場合、「DB使用」を考慮したライブラリを、「クラウド使用有無：」が「有り」となっていた場合は「クラウド使用」を考慮したライブラリを紹介してください。\n"
     system_prompt_template = "回答は＜テンプレート＞の内容に沿って返却してください。\n ＜テンプレート＞ \n フレームワーク名： \n  開発環境： \n"
     system_prompt_ehd = "それ以外の回答はしないでください。\n 「作りたいアプリの概要：」で回答できない質問を指定された場合は、「アプリが不明です。」と返答してください。 \n 「プログラム言語：」に存在しない言語を質問されたら「存在しない言語です。入力内容を確認してください。」と回答してください。\n"
+    system_prompt = system_prompt1 + system_prompt2 + system_prompt3 + system_prompt_template + system_prompt_ehd
+    logger.debug("system_prompt:\n" + system_prompt)
     # user_prompt
     prompt_app_overview = "作りたいアプリの概要：" + app_over_view + "\n"
     prompt_programming_language = "プログラム言語：" + programming_language + "\n"
     prompt_platform = "プラットフォーム：" + platform + "\n"
     prompt_use_database = "DB使用有無：有り" if use_database == "true" else ""
     prompt_use_cloud = "クラウド使用有無：有り" if use_cloud == "true" else ""
+    prompt = prompt_app_overview + prompt_programming_language + prompt_platform + prompt_use_database + prompt_use_cloud
+    logger.debug("prompt:\n" + prompt)
+
     # 質問を投げる
     res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "system",
-                "content": translator.translate(system_prompt1 + system_prompt2 + system_prompt3 + system_prompt_template + system_prompt_ehd, dest='en').text
+                "content": translator.translate(system_prompt, dest='en').text
             },
             {
                 "role": "user",
-                "content": translator.translate(prompt_app_overview + prompt_programming_language + prompt_platform + prompt_use_database + prompt_use_cloud, dest='en').text
+                "content": translator.translate(prompt, dest='en').text
             },
         ],
         n           = 1,                # 返答数
         temperature = 0,                # 出力する単語のランダム性（0から2の範囲） 0であれば毎回返答内容固定
     )
-    #print("回答：" + res["choices"][0]["message"]["content"])
-    #print("回答(翻訳)：" + translator.translate(res["choices"][0]["message"]["content"], dest='ja').text)
-    #print(res['usage'])
+    logger.debug("発行トークン数：" + json.dumps(res['usage']))
+    logger.debug("createPrompt end")
+    # 日本語に翻訳して返却
     return translator.translate(res["choices"][0]["message"]["content"], dest='ja').text;
 
 # 桁数チェック
