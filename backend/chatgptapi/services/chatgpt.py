@@ -6,6 +6,7 @@ import os
 import openai
 import json
 import logging
+from chatgptapi import LOG_FILE_PATH
 
 openai.api_key = settings.API_KEY
 # 最大桁数
@@ -14,11 +15,10 @@ MAX_LEN = 50
 translator = Translator()
 
 # ログファイルの設定
-log_file = os.path.join(settings.LOG_DIR, 'backend.log')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 # 日別にログファイルを作成し、過去10日分までログファイルを保持する
-handler = TimedRotatingFileHandler(log_file, when='D', interval=1, backupCount=10)
+handler = TimedRotatingFileHandler(LOG_FILE_PATH, when='D', interval=1, backupCount=10)
 handler.setLevel(logging.DEBUG)
 logger.addHandler(handler)
 logger.propagate = False
