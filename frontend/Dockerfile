@@ -4,4 +4,5 @@ RUN apk update
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 EXPOSE 5173
+RUN npm install buffer
 ENTRYPOINT yarn dev
