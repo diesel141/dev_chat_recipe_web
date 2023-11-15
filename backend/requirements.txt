@@ -4,3 +4,6 @@ django-filter
 django-cors-headers
 googletrans
 openai
+os
+logging
+TimedRotatingFileHandler
