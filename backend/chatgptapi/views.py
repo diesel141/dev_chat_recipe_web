@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .services.chatgpt import createPrompt
 
+import json
+
 class RequestChatGPTView(APIView):
     def post(self, request, format=None):
         try:
@@ -26,3 +28,28 @@ class RequestChatGPTView(APIView):
             # エラーが発生した場合
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+class RequestChatGPTSelectionLang(APIView):
+    def get(self, request, format=None):
+        try:
+            # 言語
+            programming_language_open = open('./json/programmingLanguage.json', 'r')
+            programming_language_json = json.load(programming_language_open)
+            return Response(
+                {"content": programming_language_json}, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            # エラーが発生した場合
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class RequestChatGPTSelectionPlatform(APIView):
+    def get(self, request, format=None):
+        try:
+            # プラットフォーム
+            platform_open = open('./json/platform.json', 'r')
+            platform_json = json.load(platform_open)
+            return Response(
+                {platform_json}, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            # エラーが発生した場合
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
