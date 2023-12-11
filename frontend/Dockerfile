@@ -1,4 +1,4 @@
-FROM node:16.18-alpine
+FROM node:20.9.0-alpine
 WORKDIR /app
 RUN apk update
 COPY package.json yarn.lock ./
