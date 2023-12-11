@@ -35,7 +35,7 @@ class RequestChatGPTSelectionLang(APIView):
             programming_language_open = open('./json/programmingLanguage.json', 'r')
             programming_language_json = json.load(programming_language_open)
             return Response(
-                {"content": programming_language_json}, status=status.HTTP_200_OK
+                {programming_language_json}, status=status.HTTP_200_OK
             )
         except Exception as e:
             # エラーが発生した場合
